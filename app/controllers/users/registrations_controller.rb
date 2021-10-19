@@ -1,4 +1,4 @@
-class RegistrationsController < Devise::RegistrationsController
+class Users::RegistrationsController < Devise::RegistrationsController
   respond_to :json
 
   # POST /users
@@ -25,19 +25,20 @@ class RegistrationsController < Devise::RegistrationsController
         # set_flash_message! :notice, :signed_up
         sign_up(resource_name, resource)
         # respond_with resource, location: after_sign_up_path_for(resource)
-        render json: { message: :notice, signedup: :signed_up, resource: resource.devise, created: :created }
+        render json: resource
+        # render json: {resource: resource, message: i18n_message }
       else
         # set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
         expire_data_after_sign_in!
         # respond_with resource, location: after_inactive_sign_up_path_for(resource)
-        render json: { message: notice, signed_up: "signed_up_but_#{resource.inactive_message}", resource: resource.errors, status: 401 }
+        render jsonapi_errors: { resource: resource.errors, status: 400 }
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
       #   respond_with resource
-      render json: { resource: resource.errors, status: 401}
-    #   render json: resource.errors, status: 400
+      render json: { resource: resource.errors, status: 400 }
+      #   render json: resource.errors, status: 400
     end
   end
 end
