@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
 
   def render_json_response(resource)
     if resource.errors.empty?
-      render json: resource
+      render json: resource, {message: I18n.t("devise.sessions.signed_in")}
     else
       render json: resource.errors, status: 400
     end

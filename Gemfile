@@ -40,5 +40,6 @@ end
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'devise'
+gem 'devise-jwt', '~> 0.9.0'
 gem 'jsonapi-rails'
 gem 'rubocop', '~> 1.22', '>= 1.22.1'
