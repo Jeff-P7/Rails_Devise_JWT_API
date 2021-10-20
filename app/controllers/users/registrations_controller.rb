@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  respond_to :json
+  # respond_to :json
 
   # POST /users
   # Specs No

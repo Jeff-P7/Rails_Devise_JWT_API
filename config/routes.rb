@@ -7,7 +7,7 @@ Rails.application.routes.draw do
              controllers: {
                # confirmations: 'confirmations',
                # passwords: 'passwords',
+               sessions: 'users/sessions',
                registrations: 'users/registrations'
-               # sessions: 'sessions',
              }
 end
