@@ -1,5 +1,7 @@
 class ApplicationController < ActionController::API
   before_action :authenticate_user!
+  before_action :set_locale
+
   respond_to :json
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
 
@@ -16,6 +18,11 @@ class ApplicationController < ActionController::API
     else
       render json: resource.errors, status: 400
     end
+  end
+
+  def set_locale
+    # I18n.locale = request.headers["X-Lang"] || I18n.default_locale
+    I18n.locale = :en
   end
 
   def record_not_unique(message)
@@ -46,5 +53,24 @@ class ApplicationController < ActionController::API
   # def configure_permitted_parameters
   #   devise_parameter_sanitizer.for(:sign_up) { |u| u.permit(:username, :email, :password) }
   #   # devise_parameter_sanitizer.for(:account_update) { |u| u.permit(:name, :email, :password, :current_password) }
+  # end
+
+  # def i18n_message(default = nil)
+  #   message = warden_message || default || :unauthenticated
+
+  #   if message.is_a?(Symbol)
+  #     options = {}
+  #     options[:resource_name] = scope
+  #     options[:scope] = "devise"
+  #     options[:default] = [message]
+  #     auth_keys = scope_class.authentication_keys
+  #     keys = (auth_keys.respond_to?(:keys) ? auth_keys.keys : auth_keys).map { |key| scope_class.human_attribute_name(key) }
+  #     options[:authentication_keys] = keys.join(I18n.translate(:"support.array.words_connector"))
+  #     options = i18n_options(options)
+
+  #     I18n.t(:"#{scope}.#{message}", **options)
+  #   else
+  #     message.to_s
+  #   end
   # end
 end
