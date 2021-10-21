@@ -1,5 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # respond_to :json
+  # before_action :configure_permitted_parameters, if: :devise_controller?
 
   # POST /users
   # Specs No
@@ -26,6 +27,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         # respond_with resource, location: after_sign_up_path_for(resource)
         render json: resource, success: true
+        # render json: resource, success: true, { message: i18n_message }
         # render json: {resource: resource, message: i18n_message }
       else
         # set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
@@ -41,4 +43,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
       #   render json: resource.errors, status: 400
     end
   end
+
+  protected
+
+  # If you have extra params to permit, append them to the sanitizer.
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+  end
+
+
 end
