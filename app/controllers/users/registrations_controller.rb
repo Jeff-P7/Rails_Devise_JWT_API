@@ -1,3 +1,6 @@
+# load 'shared_functions.rb'
+require 'shared_functions'
+
 class Users::RegistrationsController < Devise::RegistrationsController
   # respond_to :json
   # before_action :configure_permitted_parameters, if: :devise_controller?
@@ -28,7 +31,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     else
       clean_up_passwords resource
       set_minimum_password_length
-      render json: { message: I18n.translate('devise.failure.invalid'), resource: resource.errors }, status: 400
+      msg = I18n.translate('errors.messages.not_found')
+      console_msg('error', resource.errors)
+      render json: { message: msg, resource: resource.errors }, status: 400
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
