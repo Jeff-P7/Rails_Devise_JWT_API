@@ -1,6 +1,10 @@
+# load 'shared_functions.rb'
+require 'shared_functions'
 class ApplicationController < ActionController::API
   before_action :authenticate_user!
   before_action :set_locale
+
+  include Shared
 
   respond_to :json
   rescue_from ActiveRecord::RecordNotUnique, with: :record_not_unique
@@ -16,6 +20,7 @@ class ApplicationController < ActionController::API
       # render json: resource, {token: request.env['warden-jwt_auth.token']}
       # render json: resource, {message: I18n.t("devise.sessions.signed_in")}
     else
+      console_msg('error', resource.errors)
       render json: resource.errors, status: 400
     end
   end

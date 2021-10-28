@@ -1,10 +1,10 @@
-# load 'shared_functions.rb'
-require 'shared_functions'
+# # load 'shared_functions.rb'
+# require 'shared_functions'
 
 class Users::RegistrationsController < Devise::RegistrationsController
   # respond_to :json
   # before_action :configure_permitted_parameters, if: :devise_controller?
-  include Shared
+  # include Shared
   # before_action do
   #   I18n.locale = :en # Or whatever logic you use to choose.
   # end
