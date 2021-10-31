@@ -16,7 +16,9 @@ class ApplicationController < ActionController::API
 
   def render_json_response(resource)
     if resource.errors.empty?
-      render json: resource
+      render json: { message: 'AYO your IN!', resouse: resource,
+                     token: headers['Authorization'].present? ? headers['Authorization'].split(' ').last : { error: 'this hsit is fukced' } }
+      # render json: { message: 'AYO your IN!', resouse: resource, token: request.authorization }
       # render json: resource, {token: request.env['warden-jwt_auth.token']}
       # render json: resource, {message: I18n.t("devise.sessions.signed_in")}
     else
@@ -49,6 +51,24 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit :sign_in, keys: %i[login password]
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
+
+  def http_auth_header
+    # if headers['Authorization'].present?
+    #   return headers['Authorization'].split(' ').last
+    # else
+    #   errors.add(:token, 'Missing token')
+    # end
+
+    # nil
+
+    return headers['Authorization'].split(' ').last if headers['Authorization'].present?
+  end
+
+  # def bearer_token
+  #   pattern = /^Bearer /
+  #   header  = request.env['Authorization'] # <= env
+  #   header.gsub(pattern, '') if header && header.match(pattern)
+  # end
 
   # # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
