@@ -16,8 +16,10 @@ class ApplicationController < ActionController::API
 
   def render_json_response(resource)
     if resource.errors.empty?
-      render json: { message: 'AYO your IN!', resouse: resource,
-                     token: headers['Authorization'].present? ? headers['Authorization'].split(' ').last : { error: 'this hsit is fukced' } }
+      # render json: { message: I18n.t('devise.sessions.signed_in'), user: resource }
+      render json: { message: :update_needs_confirmation, user: resource }
+      # render json: { message: 'AYO your IN!', resource: resource,
+      #                token: headers['Authorization'].present? ? headers['Authorization'].split(' ').last : { error: 'this hsit is fukced' } }
       # render json: { message: 'AYO your IN!', resouse: resource, token: request.authorization }
       # render json: resource, {token: request.env['warden-jwt_auth.token']}
       # render json: resource, {message: I18n.t("devise.sessions.signed_in")}
@@ -46,7 +48,7 @@ class ApplicationController < ActionController::API
   protected
 
   def configure_permitted_parameters
-    added_attrs = %i[username email password password_confirmation remember_me]
+    added_attrs = %i[firstName lastName username email password password_confirmation remember_me]
     devise_parameter_sanitizer.permit :sign_up, keys: added_attrs
     devise_parameter_sanitizer.permit :sign_in, keys: %i[login password]
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs

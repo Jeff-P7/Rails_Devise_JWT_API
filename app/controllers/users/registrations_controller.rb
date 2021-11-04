@@ -9,6 +9,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   I18n.locale = :en # Or whatever logic you use to choose.
   # end
 
+  @msg_json = ''
+
   # POST /resource
   def create
     build_resource(sign_up_params)
@@ -17,23 +19,25 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
+        msg = find_message(:signed_up)
+        console_msg('success', msg)
         sign_up(resource_name, resource)
-        console_msg('success', 'User was successfully created')
-        render json: { message: I18n.translate('devise.registrations.signed_up'), resource: resource }, status: :created
+        render json: { message: msg, resource: resource }, status: :created
       else
-        # set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
+        msg = find_message(:"signed_up_but_#{resource.inactive_message}")
         expire_data_after_sign_in!
-        # respond_with resource, location: after_inactive_sign_up_path_for(resource)
-        console_msg('error', resource.errors)
-        render json: { message: I18n.translate('devise.registrations.signed_up_but_inactive'),
+        console_msg('error', msg)
+        render json: { message: :msg,
                        resource: resource.errors }, status: 400
       end
     else
       clean_up_passwords resource
       set_minimum_password_length
-      msg = I18n.translate('errors.messages.not_found')
-      console_msg('error', resource.errors)
-      render json: { message: msg, resource: resource.errors }, status: 400
+      # msg = I18n.translate('errors.messages.not_found')
+      varibale = resource.errors.dup
+      modify_msg_json(varibale)
+      console_msg('error', @msg_json)
+      render json: { message: resource.errors, err: @msg_json }, status: 400
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
@@ -67,4 +71,29 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:username])
   # end
+
+  private
+
+  def modify_msg_json(msg)
+    @msg_json = msg
+  end
+
+  def set_flash_message_for_update(resource, prev_unconfirmed_email)
+    return unless is_flashing_format?
+
+    flash_key = if update_needs_confirmation?(resource, prev_unconfirmed_email)
+                  :update_needs_confirmation
+                elsif sign_in_after_change_password?
+                  :updated
+                else
+                  :updated_but_not_signed_in
+                end
+
+    modify_msg_json(flash_key)
+    # set_flash_message :notice, flash_key
+  end
+
+  def retrieve_devise_msg_error
+    resource.errors
+  end
 end
