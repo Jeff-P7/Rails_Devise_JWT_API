@@ -9,8 +9,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   I18n.locale = :en # Or whatever logic you use to choose.
   # end
 
-  @msg_json = ''
-
   # POST /resource
   def create
     build_resource(sign_up_params)
@@ -19,13 +17,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     yield resource if block_given?
     if resource.persisted?
       if resource.active_for_authentication?
+        sign_up(resource_name, resource)
         msg = find_message(:signed_up)
         console_msg('success', msg)
-        sign_up(resource_name, resource)
         render json: { message: msg, resource: resource }, status: :created
       else
-        msg = find_message(:"signed_up_but_#{resource.inactive_message}")
         expire_data_after_sign_in!
+        msg = find_message(:"signed_up_but_#{resource.inactive_message}")
         console_msg('error', msg)
         render json: { message: :msg,
                        resource: resource.errors }, status: 400
@@ -34,10 +32,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       clean_up_passwords resource
       set_minimum_password_length
       # msg = I18n.translate('errors.messages.not_found')
-      varibale = resource.errors.dup
-      modify_msg_json(varibale)
-      console_msg('error', @msg_json)
-      render json: { message: resource.errors, err: @msg_json }, status: 400
+      # varibale = resource.errors.dup
+      # modify_msg_json(varibale)
+      console_msg('error', 'Email is invalid or already taken')
+      render json: { message: 'Email is invalid or already taken' }, status: 400
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
@@ -54,14 +52,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource_updated
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-
-      # respond_with resource, location: after_update_path_for(resource)
-      render json: { message: I18n.translate('devise.registrations.updated'), resource: resource }, status: 400
+      console_msg('success', find_message(:updated))
+      # render json: { message: I18n.translate('devise.registrations.updated'), resource: resource }, status: 400
+      # render json: { message: @msg_json, resource: resource }
+      render json: { message: find_message(:updated), resource: resource }
     else
       clean_up_passwords resource
       set_minimum_password_length
       # respond_with resource
-      render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
+      # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
+      console_msg('error', @msg_json)
+      render json: { message: @msg_json, resource: resource.errors }, status: 400
     end
   end
 
@@ -73,6 +74,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   private
+
+  @msg_json = ''
 
   def modify_msg_json(msg)
     @msg_json = msg

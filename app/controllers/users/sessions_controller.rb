@@ -1,6 +1,19 @@
 class Users::SessionsController < Devise::SessionsController
   # respond_to :json
 
+  # POST /resource/sign_in
+  def create
+    self.resource = warden.authenticate!(auth_options)
+    sign_in(resource_name, resource)
+    yield resource if block_given?
+
+    msg = find_message(:signed_in)
+    console_msg('success', msg)
+    # render json: { message: msg, resource: resource }
+    respond_with resource
+    # respond_with resource, location: after_sign_in_path_for(resource)
+  end
+
   private
 
   def respond_with(resource, _opts = {})
