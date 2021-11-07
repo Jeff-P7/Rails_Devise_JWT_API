@@ -17,15 +17,19 @@ class ApplicationController < ActionController::API
   def render_json_response(resource)
     if resource.errors.empty?
       # render json: { message: I18n.t('devise.sessions.signed_in'), user: resource }
-      render json: { message: :update_needs_confirmation, user: resource }
+      msg = find_message(:signed_in)
+      console_msg('success', msg)
+      render json: { message: msg, user: resource }
       # render json: { message: 'AYO your IN!', resource: resource,
       #                token: headers['Authorization'].present? ? headers['Authorization'].split(' ').last : { error: 'this hsit is fukced' } }
       # render json: { message: 'AYO your IN!', resouse: resource, token: request.authorization }
       # render json: resource, {token: request.env['warden-jwt_auth.token']}
       # render json: resource, {message: I18n.t("devise.sessions.signed_in")}
     else
-      console_msg('error', resource.errors)
-      render json: resource.errors, status: 400
+      msg = 'Wrong email or password'
+      console_msg('error', msg)
+      render json: { message: msg }, status: 400
+      # render json: resource.errors, status: 400
     end
   end
 
@@ -54,17 +58,17 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit :account_update, keys: added_attrs
   end
 
-  def http_auth_header
-    # if headers['Authorization'].present?
-    #   return headers['Authorization'].split(' ').last
-    # else
-    #   errors.add(:token, 'Missing token')
-    # end
+  # def http_auth_header
+  #   # if headers['Authorization'].present?
+  #   #   return headers['Authorization'].split(' ').last
+  #   # else
+  #   #   errors.add(:token, 'Missing token')
+  #   # end
 
-    # nil
+  #   # nil
 
-    return headers['Authorization'].split(' ').last if headers['Authorization'].present?
-  end
+  #   return headers['Authorization'].split(' ').last if headers['Authorization'].present?
+  # end
 
   # def bearer_token
   #   pattern = /^Bearer /

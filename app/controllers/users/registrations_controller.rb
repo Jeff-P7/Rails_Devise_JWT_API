@@ -34,8 +34,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # msg = I18n.translate('errors.messages.not_found')
       # varibale = resource.errors.dup
       # modify_msg_json(varibale)
-      console_msg('error', 'Email is invalid or already taken')
-      render json: { message: 'Email is invalid or already taken' }, status: 400
+      # resource.errors.full_messages.first
+      msg = resource.errors.full_messages.first
+      console_msg('error', msg)
+      render json: { message: msg }, status: 400
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
