@@ -8,4 +8,5 @@
 - [ ] TODO:
 
 - [ ] FIXME: DeviseHelper#devise_error_messages! is only meant for erb error handling outputs, need to find an alternative for managing login errors, and other requests
+- [ ] FIXME: AUD is necessary to avoid duplicating keys from user devise on login
 - [ ] FIXME:

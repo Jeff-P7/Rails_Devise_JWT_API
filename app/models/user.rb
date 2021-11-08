@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  # include Users::Allowlist
   include Devise::JWT::RevocationStrategies::Allowlist
 
   # Include default devise modules. Others available are:
@@ -6,7 +7,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist
+         :jwt_authenticatable, jwt_revocation_strategy: self
 
   # devise :database_authenticatable, :registerable,
   #        :jwt_authenticatable, jwt_revocation_strategy: JwtDenylist

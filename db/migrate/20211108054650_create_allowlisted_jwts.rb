@@ -1,9 +1,9 @@
-class CreateJwtAllowList < ActiveRecord::Migration[6.1]
+class CreateAllowlistedJwts < ActiveRecord::Migration[6.1]
   def change
     create_table :allowlisted_jwts do |t|
-      t.references :users, foreign_key: { on_delete: :cascade }, null: false
+      t.references :user, foreign_key: { on_delete: :cascade }, null: false
       t.string :jti, null: false
-      t.string :aud, null: false
+      t.string :aud
       t.datetime :exp, null: false
       t.string :remote_ip
       t.string :os_data
