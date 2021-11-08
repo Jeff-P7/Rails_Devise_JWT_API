@@ -9,8 +9,9 @@ class Users::SessionsController < Devise::SessionsController
 
     msg = find_message(:signed_in)
     console_msg('success', msg)
+    render json: { message: msg, user: resource }
     # render json: { message: msg, resource: resource }
-    respond_with resource
+    # respond_with resource
     # respond_with resource, location: after_sign_in_path_for(resource)
   end
 
