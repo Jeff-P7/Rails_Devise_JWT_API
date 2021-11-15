@@ -12,7 +12,8 @@ Rails.application.routes.draw do
              }
 
   namespace :api, defaults: { format: :json } do
-    # resources :users, only: %w[show]
-    resources :users
+    resources :users, only: %w[show]
+    get '/self', to: 'users#self'
+    # resources :users
   end
 end

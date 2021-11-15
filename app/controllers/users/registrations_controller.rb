@@ -37,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # resource.errors.full_messages.first
       msg = resource.errors.full_messages.first
       console_msg('error', msg)
-      render json: { message: msg }, status: 400
+      render json: { message: msg }, status: 401
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
@@ -74,6 +74,18 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def configure_account_update_params
   #   devise_parameter_sanitizer.permit(:account_update, keys: [:username])
   # end
+
+  # Source - https://blog.mnishiguchi.com/railsdevise-edit-user-account-without-requiring-password
+  protected
+
+  def update_resource(resource, params)
+    # Require current password if user is trying to change password.
+    return super if params['password']&.present?
+
+    # Allows user to update registration information without password.
+    resource.update_without_password(params.except('current_password'))
+  end
+  # End of Source
 
   private
 

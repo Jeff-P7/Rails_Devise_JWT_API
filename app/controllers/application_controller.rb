@@ -14,12 +14,20 @@ class ApplicationController < ActionController::API
   # before_action :configure_permitted_parameters, if: :devise_controller?
   # before_filter :configure_permitted_parameters, if: :devise_controller?
 
+  # def render_json_response(resource)
+  #   if resource.errors.empty?
+  #     render json: resource
+  #   else
+  #     render json_errors: resource.errors, status: 400
+  #   end
+  # end
+
   def render_json_response(resource)
     if resource.errors.empty?
       # render json: { message: I18n.t('devise.sessions.signed_in'), user: resource }
-      msg = find_message(:signed_in)
-      console_msg('success', msg)
-      render json: { message: msg, user: resource }
+      # msg = find_message(:signed_in)
+      # console_msg('success', msg)
+      render json: { message: "hello", user: resource }
       # render json: { message: 'AYO your IN!', resource: resource,
       #                token: headers['Authorization'].present? ? headers['Authorization'].split(' ').last : { error: 'this hsit is fukced' } }
       # render json: { message: 'AYO your IN!', resouse: resource, token: request.authorization }

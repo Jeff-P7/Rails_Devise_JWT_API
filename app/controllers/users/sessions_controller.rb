@@ -29,6 +29,6 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
-    head :no_content
+    render json: { message: find_message(:signed_out) }
   end
 end

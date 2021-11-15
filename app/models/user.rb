@@ -17,12 +17,15 @@ class User < ApplicationRecord
 
   validate :validate_username
 
+  # Devise override for logging in with username or email
+  # Source - https://github.com/heartcombo/devise/wiki/How-To:-Allow-users-to-sign-in-using-their-username-or-email-address
   attr_writer :login
 
   def login
     @login || username || email
   end
 
+  # Use :login for searching username and email
   def self.find_for_database_authentication(warden_conditions)
     conditions = warden_conditions.dup
     if login = conditions.delete(:login)
@@ -36,4 +39,5 @@ class User < ApplicationRecord
   def validate_username
     errors.add(:username, :invalid) if User.where(email: username).exists?
   end
+  # End of Source
 end
