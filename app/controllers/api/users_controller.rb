@@ -11,9 +11,10 @@ class Api::UsersController < ApplicationController
   # GET /api/v1/users/:id
   # def show
   def self
-    msg = 'User successfully fetched info'
+    msg = 'User fetched info successfully'
     console_msg('success', msg)
-    render json: { message: msg, user: current_user }
+    # render json: { message: msg, user: current_user }
+    render json: { message: msg, user: UserSerializer.new(current_user) }
 
     # render_json_response(@user)
 

@@ -41,9 +41,11 @@ gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'devise'
 gem 'devise-jwt', '~> 0.9.0'
-gem 'jsonapi-rails'
-gem 'rubocop', '~> 1.22', '>= 1.22.1'
+# gem 'jsonapi-rails'
+gem 'awesome_print', '~> 1.9', '>= 1.9.2'
 gem 'colorize'
 gem 'devise-i18n'
-gem 'awesome_print', '~> 1.9', '>= 1.9.2'
+gem 'jsonapi-serializer'
+gem 'rubocop', '~> 1.22', '>= 1.22.1'
+
 # gem 'hirb', '~> 0.7.3'
