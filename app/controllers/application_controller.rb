@@ -22,6 +22,7 @@ class ApplicationController < ActionController::API
   #   end
   # end
 
+  # FIXME: SET THIS TO: IF LOGIN FAILS, THEN...
   def render_json_response(resource)
     if resource.errors.empty?
       # render json: { message: I18n.t('devise.sessions.signed_in'), user: resource }

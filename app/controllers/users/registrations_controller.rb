@@ -20,12 +20,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         msg = find_message(:signed_up)
         console_msg('success', msg)
-        render json: { message: msg, resource: resource }, status: :created
+        render json: { msg: msg, resource: resource }, status: :created
       else
         expire_data_after_sign_in!
         msg = find_message(:"signed_up_but_#{resource.inactive_message}")
         console_msg('error', msg)
-        render json: { message: :msg,
+        render json: { msg: :msg,
                        resource: resource.errors }, status: 400
       end
     else
@@ -37,7 +37,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # resource.errors.full_messages.first
       msg = resource.errors.full_messages.first
       console_msg('error', msg)
-      render json: { message: msg }, status: 401
+      render json: { msg: msg }, status: 401
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
@@ -57,14 +57,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
       console_msg('success', find_message(:updated))
       # render json: { message: I18n.translate('devise.registrations.updated'), resource: resource }, status: 400
       # render json: { message: @msg_json, resource: resource }
-      render json: { message: find_message(:updated), resource: resource }
+      render json: { msg: find_message(:updated), resource: resource }
     else
       clean_up_passwords resource
       set_minimum_password_length
       # respond_with resource
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
       console_msg('error', @msg_json)
-      render json: { message: @msg_json, resource: resource.errors }, status: 400
+      render json: { msg: @msg_json, resource: resource.errors }, status: 400
     end
   end
 
