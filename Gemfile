@@ -43,10 +43,10 @@ gem 'devise'
 gem 'devise-jwt', '~> 0.9.0'
 # gem 'jsonapi-rails'
 gem 'awesome_print', '~> 1.9', '>= 1.9.2'
+gem 'blueprinter' # https://github.com/procore/blueprinter
 gem 'colorize'
 gem 'devise-i18n'
-gem 'jsonapi-serializer'
-gem 'nilify_blanks', '~> 1.4' # https://github.com/rubiety/nilify_blanks
+gem 'nilify_blanks' # https://github.com/rubiety/nilify_blanks
 gem 'rubocop', '~> 1.22', '>= 1.22.1'
-
+gem 'oj' # http://www.ohler.com/oj/doc/index.html
 # gem 'hirb', '~> 0.7.3'

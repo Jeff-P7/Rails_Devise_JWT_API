@@ -63,6 +63,7 @@ GEM
     ast (2.4.2)
     awesome_print (1.9.2)
     bcrypt (3.1.16)
+    blueprinter (0.25.3)
     bootsnap (1.9.1)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -97,8 +98,6 @@ GEM
       activesupport (>= 5.0)
     i18n (1.8.10)
       concurrent-ruby (~> 1.0)
-    jsonapi-serializer (2.2.0)
-      activesupport (>= 4.2)
     jwt (2.3.0)
     listen (3.7.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -119,6 +118,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-linux)
       racc (~> 1.4)
+    oj (3.13.9)
     orm_adapter (0.5.0)
     parallel (1.21.0)
     parser (3.0.2.0)
@@ -209,15 +209,16 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print (~> 1.9, >= 1.9.2)
+  blueprinter
   bootsnap (>= 1.4.4)
   byebug
   colorize
   devise
   devise-i18n
   devise-jwt (~> 0.9.0)
-  jsonapi-serializer
   listen (~> 3.3)
-  nilify_blanks (~> 1.4)
+  nilify_blanks
+  oj
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.1)

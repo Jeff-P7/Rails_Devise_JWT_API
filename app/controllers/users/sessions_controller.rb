@@ -9,10 +9,8 @@ class Users::SessionsController < Devise::SessionsController
 
     msg = find_message(:signed_in)
     console_msg('success', msg)
-    render json: { msg: msg, user: UserSerializer.new(resource).serializable_hash }
-    # render json: { message: msg, resource: resource }
-    # respond_with resource
-    # respond_with resource, location: after_sign_in_path_for(resource)
+    # render json: { msg: msg, user: UserSerializer.new(resource).serializable_hash }
+    render json: { msg: msg, user: UserBlueprint.render(resource, view: :auth_user) }
   end
 
   private

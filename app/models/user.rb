@@ -1,7 +1,6 @@
 class User < ApplicationRecord
   # include Users::Allowlist
   include Devise::JWT::RevocationStrategies::Allowlist
-  nilify_blanks
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
