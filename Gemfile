@@ -46,6 +46,7 @@ gem 'awesome_print', '~> 1.9', '>= 1.9.2'
 gem 'colorize'
 gem 'devise-i18n'
 gem 'jsonapi-serializer'
+gem 'nilify_blanks', '~> 1.4' # https://github.com/rubiety/nilify_blanks
 gem 'rubocop', '~> 1.22', '>= 1.22.1'
 
 # gem 'hirb', '~> 0.7.3'
