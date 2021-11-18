@@ -1,6 +1,6 @@
 class UserBlueprint < Blueprinter::Base
-  identifier :id
-  fields :firstName, :lastName, :bio, :email, :username
+  # identifier :id
+  # fields :firstName, :lastName, :bio, :email, :username
 
   # FIXME: Please change the camel case naming convention to underscore
 
@@ -18,7 +18,7 @@ class UserBlueprint < Blueprinter::Base
     # association :projects
   end
 
-  view :account do
+  view :user_account do
     field :username
   end
 end

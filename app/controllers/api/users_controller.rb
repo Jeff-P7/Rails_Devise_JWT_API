@@ -14,7 +14,9 @@ class Api::UsersController < ApplicationController
     msg = 'User fetched info successfully'
     console_msg('success', msg)
     # render json: { message: msg, user: current_user }
-    render json: { message: msg, user: UserSerializer.new(current_user) }
+    # render json: { message: msg, user: UserBlueprint.render(current_user, view: :user_account) }
+    render json: UserBlueprint.render(current_user, view: :user_account, root: :user, meta: { msg: msg })
+    # render json: UserBlueprint.render(user: current_user, view: :user_account, meta: msg)
 
     # render_json_response(@user)
 
