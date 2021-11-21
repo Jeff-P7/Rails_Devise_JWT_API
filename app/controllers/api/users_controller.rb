@@ -29,6 +29,12 @@ class Api::UsersController < ApplicationController
     # end
   end
 
+  def self_auth
+    msg = 'User Auth fetched info successfully'
+    console_msg('success', msg)
+    render json: UserBlueprint.render(current_user, view: :auth_user, root: :user, meta: { msg: msg })
+  end
+
   private
 
   def find_user

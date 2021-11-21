@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :users, only: %w[show]
     get '/self', to: 'users#self'
+    get '/self_auth', to: 'users#self_auth'
     # resources :users
   end
 end
