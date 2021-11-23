@@ -20,13 +20,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
         sign_up(resource_name, resource)
         msg = find_message(:signed_up)
         console_msg('success', msg)
-        render json: { msg: msg, resource: resource }, status: :created
+        # render json: { msg: msg, resource: resource }, status: :created
+        render json: UserBlueprint.render(resource, view: :auth_user, root: :user, meta: { msg: msg })
       else
         expire_data_after_sign_in!
         msg = find_message(:"signed_up_but_#{resource.inactive_message}")
         console_msg('error', msg)
-        render json: { msg: :msg,
-                       resource: resource.errors }, status: 400
+        # render json: UserBlueprint.render(resource, view: :auth_user, root: :user, meta: { msg: msg })
+        render json: { resource: resource.errors, meta: { msg: :msg } }, status: 400
       end
     else
       clean_up_passwords resource
@@ -37,7 +38,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       # resource.errors.full_messages.first
       msg = resource.errors.full_messages.first
       console_msg('error', msg)
-      render json: { msg: msg }, status: 401
+      render json: { meta: { msg: :msg } }, status: 401
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
     end
   end
@@ -54,17 +55,21 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if resource_updated
       set_flash_message_for_update(resource, prev_unconfirmed_email)
       bypass_sign_in resource, scope: resource_name if sign_in_after_change_password?
-      console_msg('success', find_message(:updated))
+      msg = find_message(:updated)
+      console_msg('success', msg)
       # render json: { message: I18n.translate('devise.registrations.updated'), resource: resource }, status: 400
       # render json: { message: @msg_json, resource: resource }
-      render json: { msg: find_message(:updated), resource: resource }
+
+      # render json: { msg: :msg, resource: resource }
+      render json: UserBlueprint.render(resource, view: :auth_user, root: :user, meta: { msg: msg })
     else
       clean_up_passwords resource
       set_minimum_password_length
       # respond_with resource
       # render json: { message: I18n.translate('errors.messages.not_found'), resource: resource.errors }, status: 400
-      console_msg('error', @msg_json)
-      render json: { msg: @msg_json, resource: resource.errors }, status: 400
+      msg = @msg_json
+      console_msg('error', msg)
+      render json: { resource: resource.errors, meta: { msg: :msg } }, status: 400
     end
   end
 

@@ -22,13 +22,17 @@ class ApplicationController < ActionController::API
   #   end
   # end
 
+  # def render_response_json
+  #   render json: UserBlueprint.render(current_user, view: :auth_user, root: :user, meta: { msg: msg })
+  # end
+
   # FIXME: SET THIS TO: IF LOGIN FAILS, THEN...(THIS DOESN'T WORK ON SESSION LOGIN FAIL, WARDEN HANDLES THAT ERROR)
   def render_json_response(resource)
     if resource.errors.empty?
       # render json: { message: I18n.t('devise.sessions.signed_in'), user: resource }
       # msg = find_message(:signed_in)
       # console_msg('success', msg)
-      render json: { message: "hello", user: resource }
+      render json: { message: 'hello', user: resource }
       # render json: { message: 'AYO your IN!', resource: resource,
       #                token: headers['Authorization'].present? ? headers['Authorization'].split(' ').last : { error: 'this hsit is fukced' } }
       # render json: { message: 'AYO your IN!', resouse: resource, token: request.authorization }
